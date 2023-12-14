@@ -27,12 +27,26 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew build
+      
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v1
 
     - name: Build and Push Docker Image
-      uses: mr-smithers-excellent/docker-build-push@v4
+      uses: docker/build-push-action@v2
       with:
-        image: deetm/java-app
-        registry: docker.io
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        push: true
+        tags: |
+          deetm/java-app:latest
+          deetm/demo-app:${{ github.sha }}      
+      env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
+
+  #  - name: Build and Push Docker Image
+  #    uses: mr-smithers-excellent/docker-build-push@v4
+  #    with:
+  #      image: deetm/java-app
+  #      registry: docker.io
+  #      username: ${{ secrets.DOCKER_USERNAME }}
+  #      password: ${{ secrets.DOCKER_PASSWORD }}
          

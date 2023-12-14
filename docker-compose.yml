@@ -1,0 +1,6 @@
+services:
+  app:
+    container_name: java-app
+    image: docker.io/deetm/java-app:latest
+    ports:
+      - 80:80

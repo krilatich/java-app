@@ -20,10 +20,6 @@ checkstyle {
     sourceSets = [sourceSets.main]
 }
 
-task checkstyleMain(type: Checkstyle) {
-    dependsOn 'compileJava'
-}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compile group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '5.2'

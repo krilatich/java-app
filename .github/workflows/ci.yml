@@ -28,6 +28,9 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
+    - name: Checkstyle
+      run: ./gradlew checkstyleMain  
+
     - name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v6.2
       with:
@@ -64,7 +67,7 @@ jobs:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         message: |
-          :white_check_mark: *Deployment Successful*
+          ✅ *Deployment Successful*
 
           Version: `v1`
 
@@ -75,7 +78,7 @@ jobs:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         message: |
-          :x: *Deployment Failed*
+          ❌ *Deployment Failed*
 
           Version: `v1`    
 

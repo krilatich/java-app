@@ -96,8 +96,6 @@ jobs:
         message: |
           ✅ *Deployment Successful*
 
-          Version: ${{ deploy.steps.autotagger.outputs.tagname }} 
-
     - name: Notify in Telegram on failure
       if: failure()
       uses: appleboy/telegram-action@master
@@ -106,8 +104,7 @@ jobs:
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         message: |
           ❌ *Deployment Failed*
-
-          Version: ${{ deploy.steps.autotagger.outputs.tagname }}   
+         
 
       
          

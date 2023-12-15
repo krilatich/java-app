@@ -56,8 +56,9 @@ jobs:
     - name: cleanup
       run: rm -rf ~/.ssh  
     
-  notify-telegram:
+  notify-telegram-success:
     needs: deploy
+    if: success()
     runs-on: ubuntu-latest
     steps:
     - name: Notify in Telegram on success
@@ -68,6 +69,11 @@ jobs:
         message: |
           ✅ *Deployment Successful*
 
+  notify-telegram-failure:
+    needs: deploy
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
     - name: Notify in Telegram on failure
       if: failure()
       uses: appleboy/telegram-action@master
@@ -76,7 +82,7 @@ jobs:
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         message: |
           ❌ *Deployment Failed*
-          
+            
   rollback:
     needs: deploy
     if: failure()
@@ -91,7 +97,7 @@ jobs:
         ssh-keyscan -H ${{ secrets.HOST }} > ~/.ssh/known_hosts
         
     - name: connect and pull
-      run: ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "docker pull deetm/java-app:v1 && docker run -d && exit"
+      run: ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "docker pull deetm/java-app:v1 && docker run -d deetm/java-app:v1 && exit"
       
     - name: cleanup
       run: rm -rf ~/.ssh  
